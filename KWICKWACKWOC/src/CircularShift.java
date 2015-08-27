@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 public class CircularShift {
-	ArrayList<String> output = new ArrayList<String>();
+	ArrayList<String> shiftedSentence = new ArrayList<String>();
 
 	public CircularShift() {
 
 	}
 
-	public void shift(ArrayList<String> wordsToBeIgnored, ArrayList<String> listOfLines) {
+	public void circularShift(ArrayList<String> wordsToBeIgnored, ArrayList<String> listOfLines) {
 	
 		for (int i = 0; i < listOfLines.size(); i++) {
 			String title = listOfLines.get(i);
@@ -15,22 +15,25 @@ public class CircularShift {
 			title = title.replaceAll("\\s+", " ");
 			String[] wordsInTitle = title.split("\\s+");
 
-			for (int j = 0; j < wordsInTitle.length; j++) {
-				if (!checkForIgnoredWord(wordsToBeIgnored, wordsInTitle[j])) {
-					title = title.replaceFirst(wordsInTitle[j] + " ", "");
-					title = wordsInTitle[j].toUpperCase() + " " + title;
-					output.add(title);
-					title = title.replaceFirst(wordsInTitle[j].toUpperCase() + " ", "");
-					title = title + " " + wordsInTitle[j];
-				} else {
-					title = title.replaceFirst(wordsInTitle[j] + " ", "");
-					title = title + " " + wordsInTitle[j].toLowerCase();
-				}
-			}
-
+			circularShiftOneTitle(wordsToBeIgnored, title, wordsInTitle);
 		}
-		Alphabetizer sort = new Alphabetizer();
-		sort.sortAlpha(output);
+		
+		new CircularShiftedTitles(shiftedSentence);
+	}
+
+	private void circularShiftOneTitle(ArrayList<String> wordsToBeIgnored, String title, String[] wordsInTitle) {
+		for (int j = 0; j < wordsInTitle.length; j++) {
+			if (!checkForIgnoredWord(wordsToBeIgnored, wordsInTitle[j])) {
+				title = title.replaceFirst(wordsInTitle[j] + " ", "");
+				title = wordsInTitle[j].toUpperCase() + " " + title;
+				shiftedSentence.add(title);
+				title = title.replaceFirst(wordsInTitle[j].toUpperCase() + " ", "");
+				title = title + " " + wordsInTitle[j];
+			} else {
+				title = title.replaceFirst(wordsInTitle[j] + " ", "");
+				title = title + " " + wordsInTitle[j].toLowerCase();
+			}
+		}
 	}
 
 	private boolean checkForIgnoredWord(ArrayList<String> wordsToBeIgnored, String wordsInTitle) {

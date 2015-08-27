@@ -19,8 +19,7 @@ public class Input {
 		System.out.printf("Enter the word to be ignored: " + "\n" + "(click enter twice to exit)" + "\n");
 		takeInInputs(listOfIgnoredWord);
 		
-		CircularShift circularShift = new CircularShift();
-		circularShift.shift(listOfIgnoredWord, listOfLines);
+		new InputData(listOfIgnoredWord, listOfLines);
 	}
 
 	private void takeInInputs(ArrayList<String> listOfLines) {
